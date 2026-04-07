@@ -9,6 +9,7 @@
      <link rel="icon" href="">
     <!-- Style links -->
      <link rel="stylesheet" href="Style/style.css">
+     <link rel="manifest" href="Script/manifest.json">
     <!-- Script links -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 </head>
@@ -32,6 +33,16 @@
             <div class="results"></div>
         </div>
     </div>
+
+
+
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('Script/sw.js')
+            .then(reg => console.log('Service Worker مسجل', reg))
+            .catch(err => console.log('خطأ في التسجيل', err));
+        }
+    </script>
 
     <script src="Script/script.js"></script>
 </body>
