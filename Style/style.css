@@ -6,6 +6,7 @@ body {
     width: 100%;
     height: 100vh;
     text-align: -webkit-center;
+    -webkit-tap-highlight-color: transparent;
 }
 body::after {
     position: fixed;
@@ -125,4 +126,32 @@ header {
     width: 96%;
     height: 96%;
     background-color: #3e464c18;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (hover: none) and (pointer: coarse) {
+    .x-btn:focus::before {
+        width: 100%;
+        height: 100;
+        background-color: #3e464c18;
+    }
+    .x-btn:active::before {
+        width: 96%;
+        height: 96%;
+        background-color: #3e464c18;
+    }
 }
