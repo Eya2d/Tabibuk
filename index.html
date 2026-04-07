@@ -38,11 +38,12 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('Script/sw.js')
+          navigator.serviceWorker.register('/sw.js')
             .then(reg => console.log('Service Worker مسجل', reg))
             .catch(err => console.log('خطأ في التسجيل', err));
         }
     </script>
+
 
     <script src="Script/script.js"></script>
 </body>
