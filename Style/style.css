@@ -150,8 +150,8 @@ header {
         background-color: #3e464c18;
     }
     .x-btn:active::before {
-        width: 96%;
-        height: 96%;
+        width: 94%;
+        height: 94%;
         background-color: #3e464c18;
     }
 }
