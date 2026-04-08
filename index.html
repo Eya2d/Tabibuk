@@ -43,44 +43,54 @@
     </script>
 
     <script>
-        let deferredPrompt;
+let deferredPrompt;
+let installBtn = null;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-          // منع الظهور التلقائي
-          e.preventDefault();
-        
-          // حفظ الحدث
-          deferredPrompt = e;
-        
-          // يمكنك إظهار زر أو إشعار للمستخدم هنا
-          showInstallMessage();
-        });
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
 
-        function showInstallMessage() {
-          const installBtn = document.createElement("button");
-          installBtn.innerText = "تثبيت التطبيق";
-          installBtn.className = "Download-app";
-        
-          document.body.appendChild(installBtn);
-        
-          installBtn.addEventListener("click", async () => {
-            if (!deferredPrompt) return;
-        
-            deferredPrompt.prompt(); // 👈 هنا تظهر الرسالة الافتراضية
-        
-            const result = await deferredPrompt.userChoice;
-        
-            if (result.outcome === 'accepted') {
-              console.log("تم التثبيت");
-            } else {
-              console.log("تم الرفض");
-            }
-        
-            deferredPrompt = null;
-          });
-        }
-    </script>
+  showInstallMessage();
+});
 
+function showInstallMessage() {
+  // منع تكرار الزر
+  if (installBtn) return;
+
+  installBtn = document.createElement("button");
+  installBtn.innerText = "تثبيت التطبيق";
+  installBtn.className = "Download-app";
+
+  document.body.appendChild(installBtn);
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    const result = await deferredPrompt.userChoice;
+
+    if (result.outcome === 'accepted') {
+      console.log("تم التثبيت");
+    } else {
+      console.log("تم الرفض");
+    }
+
+    deferredPrompt = null;
+  });
+}
+
+// ✅ عند تثبيت التطبيق
+window.addEventListener('appinstalled', () => {
+  console.log("تم تثبيت التطبيق بنجاح");
+
+  // حذف الزر
+  if (installBtn) {
+    installBtn.remove();
+    installBtn = null;
+  }
+});
+</script>
 
     <script src="Script/script.js"></script>
 </body>
