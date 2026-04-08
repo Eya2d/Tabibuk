@@ -141,6 +141,7 @@ header {
 .menu {
     position: absolute;
     top: 100%;
+    margin-top: 3px;
     background: #fff;
     padding: 5px;
     border-radius: 25px;
