@@ -155,3 +155,21 @@ header {
         background-color: #3e464c18;
     }
 }
+
+.Download-app {
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    right: 20px;
+    border: none;
+    color: #fff;
+    background-color: rgb(24, 122, 233);
+    border-radius: 25px;
+    font-family: system-ui;
+    font-size: 14px;
+    padding:10px 15px;
+    z-index:9999;
+}
+.Download-app:active {
+    background-color: rgb(15, 110, 219);
+}
