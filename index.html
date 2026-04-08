@@ -44,20 +44,42 @@
 
     <script>
 let deferredPrompt;
-let installBtn = null;
 
+// ✅ دالة للتحقق هل التطبيق يعمل كوضع تطبيق (مثبت)
+function isAppInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+// ✅ عند تحميل الصفحة
+window.addEventListener('load', () => {
+  // إذا التطبيق مثبت → لا تظهر الزر
+  if (isAppInstalled()) {
+    console.log("التطبيق مثبت بالفعل");
+    return;
+  }
+
+  // إذا المستخدم ثبت التطبيق سابقًا (حفظناها)
+  if (localStorage.getItem("appInstalled") === "true") {
+    return;
+  }
+});
+
+// ✅ التقاط حدث التثبيت
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  deferredPrompt = e;
 
+  // إذا مثبت لا تفعل شيء
+  if (isAppInstalled()) return;
+
+  deferredPrompt = e;
   showInstallMessage();
 });
 
 function showInstallMessage() {
-  // منع تكرار الزر
-  if (installBtn) return;
+  // لا تنشئ الزر إذا موجود
+  if (document.querySelector(".Download-app")) return;
 
-  installBtn = document.createElement("button");
+  const installBtn = document.createElement("button");
   installBtn.innerText = "تثبيت التطبيق";
   installBtn.className = "Download-app";
 
@@ -72,6 +94,12 @@ function showInstallMessage() {
 
     if (result.outcome === 'accepted') {
       console.log("تم التثبيت");
+
+      // ✅ حفظ أن التطبيق تم تثبيته
+      localStorage.setItem("appInstalled", "true");
+
+      // ❌ حذف الزر
+      installBtn.remove();
     } else {
       console.log("تم الرفض");
     }
@@ -80,15 +108,16 @@ function showInstallMessage() {
   });
 }
 
-// ✅ عند تثبيت التطبيق
+// ✅ عند تثبيت التطبيق فعليًا
 window.addEventListener('appinstalled', () => {
-  console.log("تم تثبيت التطبيق بنجاح");
+  console.log("تم تثبيت التطبيق فعليًا");
 
-  // حذف الزر
-  if (installBtn) {
-    installBtn.remove();
-    installBtn = null;
-  }
+  // حفظ الحالة
+  localStorage.setItem("appInstalled", "true");
+
+  // حذف الزر إذا موجود
+  const btn = document.querySelector(".Download-app");
+  if (btn) btn.remove();
 });
 </script>
 
