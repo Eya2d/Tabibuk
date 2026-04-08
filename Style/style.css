@@ -7,7 +7,6 @@ body {
     height: 100dvh;
     text-align: -webkit-center;
     -webkit-tap-highlight-color: transparent;
-    overflow-y: hidden;
 }
 body::after {
     position: fixed;
