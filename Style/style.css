@@ -82,6 +82,7 @@ header {
 }
 .searsh .menu {
     transform-origin: left top;
+    left: -5px;
 }
 
 /* Results */
@@ -146,8 +147,9 @@ header {
     margin-top: 3px;
     background: #fff;
     padding: 5px;
-    border-radius: 25px;
-    width: 190px;
+    border-radius: 20px;
+    /* width: 190px; */
+    width: 100px;
 
 
     /* الحالة الافتراضية (مخفي) */
@@ -164,7 +166,7 @@ header {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    box-shadow: rgba(69, 84, 99, 0.39) 0px 4px 14px;
+    box-shadow: rgb(69 84 99 / 16%) 0px 4px 14px;
     transform: scale(1);
 }
 
