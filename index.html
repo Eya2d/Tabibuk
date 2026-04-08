@@ -45,81 +45,89 @@
     </script>
 
     <script>
-let deferredPrompt;
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+          document.body.style.overflowY = "hidden";
+        } else {
+          document.body.style.overflowY = "auto";
+        }
+    </script>
 
-// ✅ التحقق هل التطبيق مثبت مسبقًا
-function isAppInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches 
-         || window.navigator.standalone === true;
-}
-
-// ✅ إظهار زر التثبيت فقط إذا غير مثبت
-function showInstallMessage() {
-  // إذا مثبت → لا تظهر الزر
-  if (isAppInstalled()) return;
-
-  // إذا سبق ضغط تثبيت ونجح → لا تظهر
-  if (localStorage.getItem("appInstalled") === "true") return;
-
-  // منع تكرار الزر
-  if (document.querySelector(".Download-app")) return;
-
-  const installBtn = document.createElement("button");
-  installBtn.innerText = "تثبيت التطبيق";
-  installBtn.className = "Download-app";
-
-  document.body.appendChild(installBtn);
-
-  installBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-
-    const result = await deferredPrompt.userChoice;
-
-    if (result.outcome === 'accepted') {
-      console.log("تم التثبيت");
-
-      // ✅ حفظ أنه تم التثبيت
-      localStorage.setItem("appInstalled", "true");
-
-      // ❌ حذف الزر
-      installBtn.remove();
-    } else {
-      console.log("تم الرفض");
+    <script>
+    let deferredPrompt;
+        
+    // ✅ التحقق هل التطبيق مثبت مسبقًا
+    function isAppInstalled() {
+      return window.matchMedia('(display-mode: standalone)').matches 
+             || window.navigator.standalone === true;
     }
-
-    deferredPrompt = null;
-  });
-}
-
-// ✅ حدث جاهزية التثبيت
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  showInstallMessage();
-});
-
-// ✅ عند التثبيت الفعلي (مهم جداً)
-window.addEventListener('appinstalled', () => {
-  console.log("تم تثبيت التطبيق فعليًا");
-
-  localStorage.setItem("appInstalled", "true");
-
-  const btn = document.querySelector(".Download-app");
-  if (btn) btn.remove();
-});
-
-// ✅ عند تحميل الصفحة
-window.addEventListener("load", () => {
-  if (!isAppInstalled()) {
-    // إذا غير مثبت → ننتظر beforeinstallprompt
-    console.log("التطبيق غير مثبت");
-  } else {
-    console.log("التطبيق مثبت");
-  }
-});
+    
+    // ✅ إظهار زر التثبيت فقط إذا غير مثبت
+    function showInstallMessage() {
+      // إذا مثبت → لا تظهر الزر
+      if (isAppInstalled()) return;
+    
+      // إذا سبق ضغط تثبيت ونجح → لا تظهر
+      if (localStorage.getItem("appInstalled") === "true") return;
+    
+      // منع تكرار الزر
+      if (document.querySelector(".Download-app")) return;
+    
+      const installBtn = document.createElement("button");
+      installBtn.innerText = "تثبيت التطبيق";
+      installBtn.className = "Download-app";
+    
+      document.body.appendChild(installBtn);
+    
+      installBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+    
+        deferredPrompt.prompt();
+    
+        const result = await deferredPrompt.userChoice;
+    
+        if (result.outcome === 'accepted') {
+          console.log("تم التثبيت");
+        
+          // ✅ حفظ أنه تم التثبيت
+          localStorage.setItem("appInstalled", "true");
+        
+          // ❌ حذف الزر
+          installBtn.remove();
+        } else {
+          console.log("تم الرفض");
+        }
+    
+        deferredPrompt = null;
+      });
+    }
+    
+    // ✅ حدث جاهزية التثبيت
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    
+      showInstallMessage();
+    });
+    
+    // ✅ عند التثبيت الفعلي (مهم جداً)
+    window.addEventListener('appinstalled', () => {
+      console.log("تم تثبيت التطبيق فعليًا");
+    
+      localStorage.setItem("appInstalled", "true");
+    
+      const btn = document.querySelector(".Download-app");
+      if (btn) btn.remove();
+    });
+    
+    // ✅ عند تحميل الصفحة
+    window.addEventListener("load", () => {
+      if (!isAppInstalled()) {
+        // إذا غير مثبت → ننتظر beforeinstallprompt
+        console.log("التطبيق غير مثبت");
+      } else {
+        console.log("التطبيق مثبت");
+      }
+    });
 </script>
 
     <script src="Script/script.js"></script>
