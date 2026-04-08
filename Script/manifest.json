@@ -2,7 +2,7 @@
   "name": "طبيبك",
   "short_name": "طبيبك",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
   "theme_color": "#ffffff"
 }
