@@ -80,6 +80,9 @@ header {
     z-index: 5;
     width: 100%;
 }
+.searsh .menu {
+    transform-origin: left top;
+}
 
 /* Results */
 .results {
@@ -122,12 +125,72 @@ header {
     height: 100%;
     background-color: #3e464c18;
 }
-.x-btn:focus::before {
+.x-btn:active::before {
     width: 96%;
     height: 96%;
     background-color: #3e464c18;
 }
 
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* القائمة */
+.menu {
+    position: absolute;
+    top: 100%;
+    background: #fff;
+    padding: 5px;
+    border-radius: 25px;
+    width: 190px;
+
+
+    /* الحالة الافتراضية (مخفي) */
+    transform-origin: right bottom;
+    transform: scale(0);
+    opacity: 0;
+
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+/* عند الفتح */
+.menu.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: rgba(69, 84, 99, 0.39) 0px 4px 14px;
+    transform: scale(1);
+}
+
+/* العناصر */
+.menu a {
+    position: relative;
+    user-select: none;
+    transition: ease 0.5s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0px 14px;
+    /* padding-left: 36px; */
+    border-radius: 25px;
+    border: none;
+    background: #0000;
+    justify-content: right;
+    font-family: system-ui;
+}
+
+.menu a:hover {
+    transition: ease 0.2s;
+    background: #3c4b5911;
+}
+.menu a:active {
+    opacity: .7;
+    transition: ease 0s;
+}
 
 
 
