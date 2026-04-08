@@ -97,6 +97,8 @@ header {
 }
 
 .de-btn {
+    position: relative;
+    z-index: 6;
     width: 36px;
     height: 36px;
     border: none;
@@ -154,7 +156,7 @@ header {
     opacity: 0;
 
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 5;
 }
 
 /* عند الفتح */
