@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>طبيبك</title>
 
     <!-- Links -->
@@ -45,38 +47,28 @@
     <script>
 let deferredPrompt;
 
-// ✅ دالة للتحقق هل التطبيق يعمل كوضع تطبيق (مثبت)
-function isAppInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+// 🔥 تحقق ذكي إذا التطبيق يعمل كوضع تطبيق
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+  localStorage.setItem("appInstalled", "true");
 }
 
-// ✅ عند تحميل الصفحة
-window.addEventListener('load', () => {
-  // إذا التطبيق مثبت → لا تظهر الزر
-  if (isAppInstalled()) {
-    console.log("التطبيق مثبت بالفعل");
-    return;
-  }
+// تحقق إذا كان التطبيق مثبت مسبقًا
+const isInstalled = localStorage.getItem("appInstalled") === "true";
 
-  // إذا المستخدم ثبت التطبيق سابقًا (حفظناها)
-  if (localStorage.getItem("appInstalled") === "true") {
-    return;
-  }
-});
+// إذا مثبت لا نسوي شيء
+if (!isInstalled) {
 
-// ✅ التقاط حدث التثبيت
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
 
-  // إذا مثبت لا تفعل شيء
-  if (isAppInstalled()) return;
+    showInstallMessage();
+  });
 
-  deferredPrompt = e;
-  showInstallMessage();
-});
+}
 
 function showInstallMessage() {
-  // لا تنشئ الزر إذا موجود
+  // لا تكرر الزر
   if (document.querySelector(".Download-app")) return;
 
   const installBtn = document.createElement("button");
@@ -94,12 +86,6 @@ function showInstallMessage() {
 
     if (result.outcome === 'accepted') {
       console.log("تم التثبيت");
-
-      // ✅ حفظ أن التطبيق تم تثبيته
-      localStorage.setItem("appInstalled", "true");
-
-      // ❌ حذف الزر
-      installBtn.remove();
     } else {
       console.log("تم الرفض");
     }
@@ -108,14 +94,14 @@ function showInstallMessage() {
   });
 }
 
-// ✅ عند تثبيت التطبيق فعليًا
+// عند تثبيت التطبيق فعليًا
 window.addEventListener('appinstalled', () => {
-  console.log("تم تثبيت التطبيق فعليًا");
+  console.log("تم تثبيت التطبيق");
 
-  // حفظ الحالة
+  // خزّن الحالة
   localStorage.setItem("appInstalled", "true");
 
-  // حذف الزر إذا موجود
+  // احذف الزر إذا موجود
   const btn = document.querySelector(".Download-app");
   if (btn) btn.remove();
 });
