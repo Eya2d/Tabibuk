@@ -98,7 +98,6 @@ header {
 
 .de-btn {
     position: relative;
-    z-index: 6;
     width: 36px;
     height: 36px;
     border: none;
@@ -111,6 +110,7 @@ header {
 
 .x-btn {
     position: relative;
+    z-index: 10;
 }
 .x-btn::before {
     transition: ease 0.2s;
