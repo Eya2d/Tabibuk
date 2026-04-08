@@ -1,17 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
-  // استخدام حدث واحد فقط حسب نوع الجهاز
-  const toggleEvent = isTouchDevice ? 'touchstart' : 'click';
-  
+  // فتح القائمة باستخدام click فقط (حتى على الهاتف)
   document.querySelectorAll(".toggle").forEach(button => {
     const toggleMenu = (e) => {
       e.stopPropagation();
-      e.preventDefault(); // منع السلوك الافتراضي
 
       let menu = button.nextElementSibling;
 
+      // إغلاق القوائم الأخرى
       document.querySelectorAll(".menu").forEach(m => {
         if (m !== menu) m.classList.remove("active");
       });
@@ -19,23 +15,40 @@ document.addEventListener("DOMContentLoaded", () => {
       menu.classList.toggle("active");
     };
 
-    button.addEventListener(toggleEvent, toggleMenu);
+    button.addEventListener("click", toggleMenu);
   });
 
-  // إغلاق القائمة عند النقر خارجها (حدث واحد فقط)
-  const closeEvent = isTouchDevice ? 'touchstart' : 'mousedown';
-  document.addEventListener(closeEvent, (e) => {
+  // إغلاق القائمة باللمس خارجها (فقط على الهواتف والأجهزة اللمسية)
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.addEventListener("touchstart", (e) => {
+      // إذا كان اللمس خارج الزر وخارج القائمة
+      if (!e.target.closest('.toggle') && !e.target.closest('.menu')) {
+        document.querySelectorAll(".menu").forEach(menu => {
+          menu.classList.remove("active");
+        });
+      }
+    });
+  }
+
+  // إغلاق القائمة بالضغط على الكمبيوتر (اختياري للتوافق)
+  document.addEventListener("mousedown", (e) => {
     if (!e.target.closest('.toggle') && !e.target.closest('.menu')) {
       document.querySelectorAll(".menu").forEach(menu => {
         menu.classList.remove("active");
       });
     }
   });
-  
-  // عند النقر على رابط، أغلق القائمة
+
+  // عند النقر على رابط داخل القائمة، أغلق القائمة
   document.querySelectorAll(".menu a").forEach(link => {
-    link.addEventListener('click', () => {
-      link.closest('.menu').classList.remove('active');
+    link.addEventListener("click", (e) => {
+      const menu = link.closest('.menu');
+      if (menu) menu.classList.remove("active");
+    });
+    
+    // منع touchstart من إغلاق القائمة قبل النقر
+    link.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
     });
   });
 });
