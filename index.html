@@ -59,20 +59,7 @@
         function showInstallMessage() {
           const installBtn = document.createElement("button");
           installBtn.innerText = "تثبيت التطبيق";
-          installBtn.style = `
-            position:fixed;
-            bottom:20px;
-            left:20px;
-            right: 20px;
-            border: none;
-            color: #fff;
-            background-color: rgb(21, 137, 245);
-            border-radius: 25px;
-            font-family: system-ui;
-            font-size: 14px;
-            padding:10px 15px;
-            z-index:9999;
-          `;
+          installBtn.className = "Download-app";
         
           document.body.appendChild(installBtn);
         
