@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VidHub – القسم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+    --surface: #13131a00;
+    /* --card: #1a1a24; */
+    --border: #b8b8ba;
+    --accent: #e63946;
+    --accent2: #ff6b6b;
+    --gold: #f4a261;
+    /* --text: #f0f0f5; */
+    --muted: #8888aa;
+    --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #faf9f4;
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #faf9f4;
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--text);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo span { color: orange;}
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      transition: all .2s;
+      margin-right: auto;
+      direction: ltr;
+    }
+    .back-btn:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    /* ===== MAIN ===== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-hero {
+      margin-bottom: 32px;
+    }
+
+    .section-hero a {
+      display: inline-block;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      border-bottom: 3px solid rgba(255, 145, 0, 0.822);
+      padding-bottom: 4px;
+      transition: color .2s;
+    }
+    /* .section-hero a:hover { color: rgba(255, 145, 0, 0.822); } */
+
+    .section-count {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ===== SEARCH IN SECTION ===== */
+    .section-search-wrap {
+      position: relative;
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+    .section-search-wrap input {
+      width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 40px;
+      padding: 12px 50px 12px 20px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .section-search-wrap input:focus {
+      border-color: rgba(255, 145, 0, 0.822);
+      box-shadow: 0 0 0 3px rgb(255 145 0 / 20%);
+    }
+    .section-search-wrap input::placeholder { color: var(--muted); }
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    /* ===== VIDEOS GRID ===== */
+    #videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .vid-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      animation: fadeUp .35s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .vid-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 145, 0, 0.822);
+      box-shadow: 0 10px 32px rgba(255, 145, 0, 0.26);
+    }
+    .vid-card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+    .vid-card-title {
+      padding: 10px 12px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .no-results {
+      grid-column: 1/-1;
+      color: var(--muted);
+      text-align: center;
+      padding: 60px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 12px 16px; }
+      .logo { font-size: 1.3rem; }
+      main { padding: 24px 16px; }
+      .section-hero a { font-size: 1.6rem; }
+      #videos-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html"><span>طـ</span>بيبك</a>
+  <a class="back-btn" href="index.html">← الرئيسية</a>
+</header>
+
+<main>
+
+  <div class="section-hero">
+    <a id="section-title-link" href="#">تحميل...</a>
+    <p class="section-count" id="section-count"></p>
+  </div>
+
+  <div class="section-search-wrap">
+    <input type="text" id="section-search" placeholder="ابحث في هذا القسم..." autocomplete="off" />
+    <span class="search-icon"></span>
+  </div>
+
+  <div id="videos-grid"></div>
+
+</main>
+
+<script src="Script/data.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const cat    = params.get('cat') || 'شائعة';
+  let videos   = DATA[cat] || [];
+  let filtered = [...videos];
+ 
+  const titleLink     = document.getElementById('section-title-link');
+  const countEl       = document.getElementById('section-count');
+  const sectionSearch = document.getElementById('section-search');
+  const grid          = document.getElementById('videos-grid');
+ 
+  titleLink.textContent = cat;
+  titleLink.href = '#';
+ 
+  // ===== رسم الشبكة =====
+  function renderGrid(list) {
+    if (!list.length) {
+      grid.innerHTML = '<p class="no-results">لا توجد نتائج</p>';
+      countEl.textContent = '';
+      return;
+    }
+    countEl.textContent = `${list.length} فيديو`;
+    grid.innerHTML = list.map((v, i) => `
+      <a class="vid-card" href="watch.html?id=${v.id}&cat=${encodeURIComponent(v.category)}"
+         style="animation-delay:${i * 40}ms"
+         onclick="addToWatchHistory(${JSON.stringify(v).replace(/"/g,'&quot;')})">
+        <img src="${getYoutubeThumbnail(v.id)}" alt="${v.title}" loading="lazy" />
+        <div class="vid-card-title" id="title-${v.id}">${v.title}</div>
+      </a>
+    `).join('');
+  }
+ 
+  // ===== تحديث عناوين الكروت بعد الجلب =====
+  function updateTitlesInGrid(enriched) {
+    enriched.forEach(v => {
+      const el = document.getElementById('title-' + v.id);
+      if (el) { el.textContent = v.title; el.classList.remove('loading'); }
+    });
+    // تحديث مصفوفة البيانات
+    videos = enriched;
+    // إذا كان هناك بحث نشط أعد الفلترة
+    const q = sectionSearch.value.trim();
+    if (q) {
+      filtered = videos.filter(v => v.title.includes(q));
+      renderGrid(filtered);
+    }
+  }
+ 
+  // ===== البحث =====
+  sectionSearch.addEventListener('input', () => {
+    const q = sectionSearch.value.trim();
+    filtered = q ? videos.filter(v => v.title.includes(q)) : [...videos];
+    renderGrid(filtered);
+  });
+ 
+  // ===== التشغيل =====
+  renderGrid(videos);
+ 
+  // جلب العناوين الحقيقية من YouTube ثم تحديث الواجهة
+  enrichVideos(videos).then(enriched => {
+    // تحديث DATA العام أيضاً
+    if (DATA[cat]) {
+      enriched.forEach(v => {
+        const idx = DATA[cat].findIndex(d => d.id === v.id);
+        if (idx !== -1) DATA[cat][idx].title = v.title;
+      });
+    }
+    updateTitlesInGrid(enriched);
+  });
+</script>
+</body>
+</html>

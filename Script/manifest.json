@@ -1,0 +1,8 @@
+{
+  "name": "طبيبك",
+  "short_name": "طبيبك",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e0d9be14"
+}
