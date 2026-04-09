@@ -2,6 +2,23 @@
 body {
     -webkit-tap-highlight-color: transparent;
 }
+body::after {
+    /* position: fixed; */
+    user-select: none;
+    z-index: 1;
+    content: 'جميع الحقوق محفوظة لدى طبيبك';
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    font-size: 14px;
+    opacity: .6;
+}
+.body::after {
+    position: fixed;
+}
 img {
     user-select: none;
     -webkit-user-drag: none;
