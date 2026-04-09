@@ -264,6 +264,9 @@ imga img {
     font-size: 15px;
     font-weight: 500;
 }
+.vid-card-cat {
+    opacity: .5;
+}
 
 
 
