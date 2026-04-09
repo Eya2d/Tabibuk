@@ -268,7 +268,7 @@ imga img {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.vid-card-cat {
+.vid-card-cat,.history-time {
     opacity: .5;
 }
 .history-card-title {
