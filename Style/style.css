@@ -249,6 +249,7 @@ imga img {
     justify-content: space-between;
     direction: rtl;
     height: 22px;
+    margin-top: 30px;
 }
 .coopp {
     display: flex;
