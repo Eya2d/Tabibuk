@@ -20,3 +20,12 @@ button {
     display: flex;
     align-items: center;
 }
+
+@media (hover: none) and (pointer: coarse) {
+    body {
+        user-select: none;
+    }
+    .badge {
+        user-select: text !important;
+    }
+}
