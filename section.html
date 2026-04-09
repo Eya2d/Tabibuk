@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="Style/body.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <style>
     :root {
       --bg: #0a0a0f;
@@ -141,12 +143,13 @@
     .section-search-wrap input::placeholder { color: var(--muted); }
     .search-icon {
       position: absolute;
-      right: 16px;
+      right: 18px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--muted);
-      font-size: 1.1rem;
       pointer-events: none;
+      display: flex;
+      font-size: 20px;
     }
 
     /* ===== VIDEOS GRID ===== */
@@ -239,7 +242,7 @@
 
   <div class="section-search-wrap">
     <input type="text" id="section-search" placeholder="ابحث في هذا القسم..." autocomplete="off" />
-    <span class="search-icon"></span>
+    <span class="search-icon"><ion-icon name="search-outline"></ion-icon></span>
   </div>
 
   <div id="videos-grid"></div>
