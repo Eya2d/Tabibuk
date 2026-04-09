@@ -225,7 +225,7 @@ imga {
     width: 133px;
 }
 imga img {
-    height: 100px;
+    width: 100%;
     display: block;
 }
 .history-card-info {
