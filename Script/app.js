@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  document.querySelectorAll("a, img").forEach(el => {
-
-    // منع السحب
-    el.addEventListener("dragstart", e => e.preventDefault());
-
-    // منع كليك يمين
-    el.addEventListener("contextmenu", e => e.preventDefault());
-
-    // منع الضغط (اختياري لو تبيه)
-    el.addEventListener("mousedown", e => {
-      if (e.button === 0) e.preventDefault(); // زر اليسار
+  // منع الكليك يمين وسحب للروابط
+  document.querySelectorAll("a").forEach(link => {
+    link.addEventListener("dragstart", e => e.preventDefault());
+    link.addEventListener("contextmenu", e => e.preventDefault());
+    link.addEventListener("mousedown", e => {
+      if (e.button === 0) e.preventDefault(); // زر الماوس الأيسر
     });
+  });
 
+  // منع الكليك يمين وسحب للصور
+  document.querySelectorAll("img").forEach(img => {
+    img.addEventListener("contextmenu", e => e.preventDefault());
+    img.addEventListener("dragstart", e => e.preventDefault());
   });
 
 });
