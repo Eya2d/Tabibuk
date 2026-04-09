@@ -8,7 +8,7 @@ body {
     height: 100dvh;
     text-align: -webkit-center;
 }
-body::after {
+body::before {
     position: fixed;
     z-index: -1;
     content: '';
@@ -305,6 +305,14 @@ imga img {
         height: 94%;
         background-color: #3e464c18;
     }
+    #history-grid .x-btn:active::before {
+        width: 100%;
+        height: 100%;
+        background-color: #3e464c18;
+    }
+    .history {
+        scrollbar-width: none;
+    }
 }
 
 .Download-app {
@@ -326,16 +334,3 @@ imga img {
 }
 
 
-
-/* vvod */
-.vvod {
-    position: fixed;
-    user-select: none;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 14px;
-    opacity: .6;
-}
