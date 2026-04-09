@@ -157,6 +157,7 @@
     }
 
     .vid-card {
+      position: relative;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -193,6 +194,16 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+    .vid-card::before {
+      position: absolute;
+      content: '';
+      z-index: 3;
+      bottom: 0;
+      left: 0;
+      padding: 16px 0;
+      width: 100%;
+      box-shadow: 0px -31px 30px #fff inset;
     }
 
     .no-results {
