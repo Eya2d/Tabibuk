@@ -13,3 +13,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll("img").forEach(img => {
+    img.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+    });
+  });
+
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.addEventListener("contextmenu", (e) => {
+    
+    // إذا العنصر رابط <a>
+    if (e.target.closest("a")) {
+      e.preventDefault();
+    }
+
+  });
+
+});
