@@ -1,0 +1,22 @@
+/* أساسي */
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+    display: block;
+}
+button,a,input,select {
+    outline-color: rgb(21, 137, 245);
+}
+button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex {
+    display: flex;
+    align-items: center;
+}
