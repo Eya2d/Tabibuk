@@ -134,3 +134,156 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+const container = document.querySelector('.scroll-container'); // الديف الأب
+let isDown = false;
+let startX;
+let scrollLeft;
+let dragDirection = null; // لتحديد اتجاه السحب
+
+// بداية السحب
+container.addEventListener('touchstart', startDrag);
+container.addEventListener('mousedown', startDrag);
+
+// أثناء السحب
+container.addEventListener('touchmove', moveDrag);
+container.addEventListener('mousemove', moveDrag);
+
+// نهاية السحب
+container.addEventListener('touchend', endDrag);
+container.addEventListener('mouseup', endDrag);
+container.addEventListener('mouseleave', endDrag);
+
+function startDrag(e) {
+  isDown = true;
+  startX = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+  scrollLeft = container.scrollLeft;
+  dragDirection = null;
+}
+
+function moveDrag(e) {
+  if (!isDown) return;
+  e.preventDefault();
+
+  const x = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+  const walk = (x - startX) * 1.2;
+  
+  // تحديد اتجاه السحب
+  if (walk > 2) {
+    dragDirection = 'right'; // سحب لليمين (التمرير لليسار)
+  } else if (walk < -2) {
+    dragDirection = 'left'; // سحب لليسار (التمرير لليمين)
+  }
+  
+  container.scrollLeft = scrollLeft - walk;
+}
+
+function endDrag() {
+  if (!isDown) return;
+  isDown = false;
+  
+  // تأخير بسيط للتأكد من اكتمال الحركة
+  setTimeout(() => {
+    snapToClosest();
+  }, 10);
+}
+
+// 🔥 الجزء الرئيسي: تحديد موقع العنصر حسب اتجاه السحب وموقعه
+function snapToClosest() {
+  const items = Array.from(container.querySelectorAll('.cooo.x-btn'));
+  if (items.length === 0) return;
+  
+  // الحصول على الـ padding الخاص بالحاوية
+  const containerStyle = getComputedStyle(container);
+  const containerPaddingLeft = parseFloat(containerStyle.paddingLeft);
+  const containerPaddingRight = parseFloat(containerStyle.paddingRight);
+  
+  const containerRect = container.getBoundingClientRect();
+  const containerCenter = containerRect.left + (containerRect.width / 2);
+  
+  let targetItem = null;
+  
+  // حالة خاصة: إذا كان السحب من اليمين (left) نختار العنصر الأقرب لليسار
+  if (dragDirection === 'left') {
+    // نختار العنصر الأقرب لبداية الحاوية
+    let minLeftDistance = Infinity;
+    items.forEach(item => {
+      const rect = item.getBoundingClientRect();
+      const distance = Math.abs(rect.left - (containerRect.left + containerPaddingLeft));
+      if (distance < minLeftDistance) {
+        minLeftDistance = distance;
+        targetItem = item;
+      }
+    });
+  } 
+  // حالة خاصة: إذا كان السحب من اليسار (right) نختار العنصر الأقرب لليمين
+  else if (dragDirection === 'right') {
+    // نختار العنصر الأقرب لنهاية الحاوية
+    let minRightDistance = Infinity;
+    items.forEach(item => {
+      const rect = item.getBoundingClientRect();
+      const distance = Math.abs(rect.right - (containerRect.right - containerPaddingRight));
+      if (distance < minRightDistance) {
+        minRightDistance = distance;
+        targetItem = item;
+      }
+    });
+  }
+  // إذا كان سحب عادي أو بدون اتجاه محدد
+  else {
+    // نختار أقرب عنصر للمنتصف
+    let minCenterDistance = Infinity;
+    items.forEach(item => {
+      const rect = item.getBoundingClientRect();
+      const itemCenter = rect.left + (rect.width / 2);
+      const distance = Math.abs(itemCenter - containerCenter);
+      if (distance < minCenterDistance) {
+        minCenterDistance = distance;
+        targetItem = item;
+      }
+    });
+  }
+  
+  if (targetItem) {
+    // حساب الموقع المناسب حسب نوع العنصر (أول، آخر، وسط)
+    const targetRect = targetItem.getBoundingClientRect();
+    const itemIndex = items.indexOf(targetItem);
+    const isFirst = itemIndex === 0;
+    const isLast = itemIndex === items.length - 1;
+    
+    let scrollOffset;
+    
+    if (isFirst) {
+      // العنصر الأول: يظهر في البداية (بعد الـ padding)
+      scrollOffset = container.scrollLeft + (targetRect.left - containerRect.left) - containerPaddingLeft;
+    } 
+    else if (isLast) {
+      // العنصر الأخير: يظهر في النهاية (قبل الـ padding)
+      scrollOffset = container.scrollLeft + (targetRect.right - containerRect.right) + containerPaddingRight;
+    }
+    else {
+      // العناصر الوسطى: تظهر في المنتصف
+      const targetCenter = targetRect.left + (targetRect.width / 2);
+      const containerCenterOffset = containerRect.left + (containerRect.width / 2);
+      scrollOffset = container.scrollLeft + (targetCenter - containerCenterOffset);
+    }
+    
+    container.scrollTo({
+      left: scrollOffset,
+      behavior: 'smooth'
+    });
+  }
+}
+
+// إضافة حدث للتحقق من التمرير بالماوس لتحديد الاتجاه بشكل أفضل
+let lastScrollLeft = 0;
+container.addEventListener('scroll', () => {
+  if (isDown) {
+    const currentScrollLeft = container.scrollLeft;
+    if (currentScrollLeft > lastScrollLeft) {
+      dragDirection = 'right';
+    } else if (currentScrollLeft < lastScrollLeft) {
+      dragDirection = 'left';
+    }
+    lastScrollLeft = currentScrollLeft;
+  }
+});
